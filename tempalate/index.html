@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Smart Parking</title>
+  <link rel="stylesheet" href="style.css">
+  
+</head>
+<body>
+
+  <!-- ========== CONNEXION (client / administrateur) ========== -->
+  <section id="login-view">
+    <form id="login-form" class="card">
+      <h1>🅿️ Smart Parking</h1>
+      <label>Nom d'utilisateur
+        <input id="login-user" required autocomplete="username">
+      </label>
+      <label>Mot de passe
+        <input id="login-pass" type="password" required autocomplete="current-password">
+      </label>
+      <button type="submit">Se connecter</button>
+      <p id="login-error" class="error"></p>
+      <p class="hint">Démo : client / client123 — admin / admin123</p>
+    </form>
+  </section>
+
+  <!-- ========== APPLICATION ========== -->
+  <div id="app" hidden>
+    <header>
+      <h1>🅿️ Parking intelligent</h1>
+      <div>
+        <span id="user-label"></span>
+        <button id="logout-btn" class="secondary">Déconnexion</button>
+      </div>
+    </header>
+
+    <nav id="nav"></nav>
+
+    <main>
+
+      <!-- Places en temps réel (client + admin) -->
+      <section id="view-places" class="view">
+        <div id="counters" class="counters"></div>
+        <div class="legend">
+          <span class="dot free"></span> Libre
+          <span class="dot reserved"></span> Réservée
+          <span class="dot occupied"></span> Occupée
+        </div>
+        <p id="places-help" class="hint"></p>
+        <div id="places-grid" class="grid"></div>
+      </section>
+
+      <!-- Ma place : réservation, durée, tarif (client) -->
+      <section id="view-session" class="view" hidden>
+        <div id="session-box" class="card"></div>
+      </section>
+
+      <!-- Gestion des places et des tarifs (admin) -->
+      <section id="view-manage" class="view" hidden>
+        <div class="card">
+          <h2>Tarif</h2>
+          <form id="tariff-form" class="inline">
+            <label>Prix par heure (TND)
+              <input id="tariff-input" type="number" step="0.001" min="0" required>
+            </label>
+            <button type="submit">Enregistrer</button>
+          </form>
+        </div>
+        <div class="card">
+          <h2>Places</h2>
+          <form id="place-form" class="inline">
+            <label>Numéro
+              <input id="place-input" placeholder="ex : B1" required>
+            </label>
+            <button type="submit">Ajouter</button>
+          </form>
+          <div id="places-table"></div>
+        </div>
+      </section>
+
+      <!-- Gestion des utilisateurs (admin) -->
+      <section id="view-users" class="view" hidden>
+        <div class="card">
+          <h2>Utilisateurs</h2>
+          <form id="user-form" class="inline">
+            <label>Nom <input id="user-name" required></label>
+            <label>Mot de passe <input id="user-pass" required></label>
+            <label>Rôle
+              <select id="user-role">
+                <option value="client">Client</option>
+                <option value="admin">Administrateur</option>
+              </select>
+            </label>
+            <button type="submit">Ajouter</button>
+          </form>
+          <div id="users-table"></div>
+        </div>
+      </section>
+
+      <!-- Historique et statistiques (admin) -->
+      <section id="view-history" class="view" hidden>
+        <div id="stats" class="counters"></div>
+        <div class="card">
+          <h2>Historique des stationnements</h2>
+          <div id="history-table"></div>
+        </div>
+      </section>
+
+      <!-- Barrière (admin) -->
+      <section id="view-gate" class="view" hidden>
+        <div class="card">
+          <h2>Barrière</h2>
+          <p>État : <span id="gate-state" class="badge closed">FERMÉE</span></p>
+          <p id="gate-message" class="hint"></p>
+          <div class="buttons">
+            <button id="gate-manual">Ouvrir manuellement</button>
+            <button id="gate-car-free" class="secondary">Simuler : voiture sans réservation</button>
+            <button id="gate-car-res" class="secondary">Simuler : voiture avec réservation</button>
+          </div>
+          <h3>Journal</h3>
+          <ul id="gate-log" class="log"></ul>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
